@@ -13,7 +13,7 @@ void main() {
     }
 
     try {
-      var result = calculate(input);
+      var result = evaluateExpression(input);
       print('Результат: $result');
     } catch (e) {
       print('Помилка: $e');
@@ -21,33 +21,32 @@ void main() {
   }
 }
 
-double calculate(String input) {
-  var parts = input.split(' ');
-  if (parts.length != 3) {
+double evaluateExpression(String expression) {
+  // Розділити вираз на операнди та оператор
+  List<String> elements = expression.split(' ');
+  if (elements.length != 3) {
     throw 'Невірний формат виразу';
   }
 
-  var num1 = double.tryParse(parts[0]);
-  var operator = parts[1];
-  var num2 = double.tryParse(parts[2]);
+  // Перетворити операнди на числа
+  double operand1 = double.parse(elements[0]);
+  double operand2 = double.parse(elements[2]);
 
-  if (num1 == null || num2 == null) {
-    throw 'Невірні операнди';
-  }
-
-  switch (operator) {
+  // Виконати арифметичну операцію
+  switch (elements[1]) {
     case '+':
-      return num1 + num2;
+      return operand1 + operand2;
     case '-':
-      return num1 - num2;
+      return operand1 - operand2;
     case '*':
-      return num1 * num2;
+      return operand1 * operand2;
     case '/':
-      if (num2 == 0) {
-        throw 'Ділення на нуль неможливе';
+      if (operand2 == 0) {
+        throw 'Ділення на нуль';
       }
-      return num1 / num2;
+      return operand1 / operand2;
     default:
-      throw 'Непідтримуваний оператор: $operator';
+      throw 'Непідтримуваний оператор';
   }
 }
+
